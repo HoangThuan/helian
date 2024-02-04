@@ -57,26 +57,20 @@
                   <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('搜索内容')" style="font-size: 14px;" />
                 </div>
                 <div>
-                  <VueDatePicker
+                  <VueDatapickerCustomer
                     v-model="dateOrder"
-                    range
-                    multi-calendars
-                    time-picker-inline
-                    class="datapicker vue-datepicker-customer"
                     :placeholder="$t('订单时间')"
-                    style="font-size: 14px; max-width: 198.78px"
-                  ></VueDatePicker>
+                    @closed="closeDateOrder"
+                    @update:model-value="selectDateOrder"
+                  ></VueDatapickerCustomer>
                 </div>
                 <div>
-                  <VueDatePicker
+                  <VueDatapickerCustomer
                     v-model="dateResend"
-                    range
-                    multi-calendars
-                    time-picker-inline
-                    class="datapicker vue-datepicker-customer"
                     :placeholder="$t('回调时间')"
-                    style="font-size: 14px; max-width: 198.78px"
-                  ></VueDatePicker>
+                    @closed="closeDateResend"
+                    @update:model-value="selectDateResend"
+                  ></VueDatapickerCustomer>
                 </div>
                 <Bcol lg="12">
                   <button
@@ -91,28 +85,36 @@
                   type="button"
                   class="btn-customer-no-back"
                   style="margin-left: 4px; font-size: 14px; margin-top: 7px;height: 39px;"
-                  v-on:click.prevent="location.reload()"
+                  v-on:click.prevent="pageReload()"
                 >
                 {{ $t('重置') }}
                 </button>
 
-                <BDropdown class="behalfPay" text="暂不处理" style="margin-left: 4px; font-size: 14px;  margin-top: -3.1px;height: 39px;">
+                <BDropdown class="behalfPay" style="margin-left: 4px; font-size: 14px;  margin-top: -3.1px;height: 39px;">
+                  <template #button-content>
+                      <i class="ri-loop-left-line"></i>
+                      {{ reloadTex }}
+                    </template>
                   <BDropdownItem
+                   @click="clearReload()"
                     ><span class="dropdow_item_font_size"
                       >暂不处理</span
                     ></BDropdownItem
                   >
                   <BDropdownItem
+                  @click="AutoReload(10)"
                     ><span class="dropdow_item_font_size"
                       >10秒自动刷新</span
                     ></BDropdownItem
                   >
                   <BDropdownItem
+                  @click="AutoReload(20)"
                     ><span class="dropdow_item_font_size"
                       >20秒自动刷新</span
                     ></BDropdownItem
                   >
                   <BDropdownItem
+                  @click="AutoReload(30)"
                     ><span class="dropdow_item_font_size"
                       >30秒自动刷新</span
                     ></BDropdownItem
@@ -141,7 +143,7 @@
             </div>
 
             <div class="table-responsive">
-              <table class="table table-hover text-left" id="customerTable">
+              <table class="table table-hover text-left table-bordered table-nowrap" id="customerTable">
                 <thead class="table-light">
                   <tr>
                     <th v-for="header in headers" :key="header.text">
@@ -271,7 +273,8 @@ import Layout from "@/layouts/main.vue";
 import Breadcrumb from "@/components/Breadcrumd/Breadcrumb.vue";
 import Modal from "@/components/modals/modal.vue";
 import ModalItem from "@/components/modals/modalItem.vue";
-import { ref, onMounted,inject } from "vue";
+import { ref, onMounted,inject,onBeforeUnmount } from "vue";
+import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
 
 
 const headers = ref([
@@ -368,8 +371,8 @@ const handleChangeScriptExecution = (index) => {
     items.value[index].script_execution_status = "active";
   }
 }
-const dateOrder = ref();
-const dateResend = ref();
+const dateOrder = ref([]);
+const dateResend = ref([]);
 
 
 onMounted(() => {
@@ -377,7 +380,11 @@ onMounted(() => {
     const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
     dateOrder.value = [startDate, endDate];
 })
+onBeforeUnmount(()=>{
+  clearTimeout(timeOut.value)
+})
 const swal = inject('$swal')
+//const router = inject('$router')
 const dowloadData = ()=>{
   swal({
         title: "提醒",
@@ -399,5 +406,83 @@ const dowloadData = ()=>{
         }
       });
 }
+const pageReload = () =>{
+  location.reload();
+}
+const isSelectResend = ref(false)
 const showZongHeDialog = ref(false)
+const closeDateResend =() =>{
+  if(isSelectResend.value){
+    isSelectResend.value = false
+  }
+  else{
+    if(dateOrder.value.length >0){
+      dateResend.value = [dateOrder.value[0],dateOrder.value[1]]
+      dateOrder.value = []
+    }
+  }
+}
+const selectDateResend = (modelData) => {
+  isSelectResend.value = true
+  dateResend.value = modelData;
+}
+const isSelectDateOrder = ref(false)
+const closeDateOrder =() =>{
+  if(isSelectDateOrder.value){
+    isSelectDateOrder.value = false
+  }
+  else{
+    if(dateResend.value.length >0){
+      dateOrder.value = [dateResend.value[0],dateResend.value[1]]
+      dateResend.value = []
+    }
+  }
+}
+const selectDateOrder = (modelData) => {
+  isSelectDateOrder.value = true
+  dateOrder.value = modelData;
+}
+const clearReload = () =>{
+  isClearTimeOut.value = true
+  reloadTex.value = '暂不处理'
+}
+const reloadTex = ref("暂不处理")
+const totalCount = ref(0)
+const timeOut = ref(null)
+const isClearTimeOut = ref(false)
+
+const CountDown = (count) =>{
+  if(isClearTimeOut.value == true){
+    clearTimeout(timeOut.value)
+    isClearTimeOut.value = false
+  }
+  else{
+    timeOut.value =  setTimeout(function(){
+     count --;
+     if(isClearTimeOut.value == true){
+      reloadTex.value = '暂不处理'
+     }
+     else{
+      reloadTex.value = '刷新('+count+')'
+     }
+     if(count == 0) {
+      count = totalCount.value
+      swal({
+          icon: "success",
+          title: "导出完毕",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+     }
+     CountDown(count)
+   },1000)
+  }
+}
+
+const AutoReload = (Count) =>{
+  clearTimeout(timeOut.value)
+  totalCount.value = Count;
+  reloadTex.value = '刷新('+Count+')'
+  CountDown(Count)
+}
 </script>

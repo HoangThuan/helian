@@ -3,18 +3,18 @@
     <BRow>
       <Breadcrumb :title="$t('t-bank-script')" />
 
-      <div class="col-lg-6 col-24 px-0">
-      
+      <div class="col-lg-6 col-24">
+        <BRow>
 
           <div class="border border-info p-2 rounded" style="background-color: #b8daff">
             <i class="mdi mdi-lightbulb-on fs-4 text-info"></i>
             <span class="text-blue">平台通道总开关，控制平台的全部转账汇款方式！</span>
           </div>
-      
+        </BRow>
 
 
-    
-          <BCard no-body class="card-body px-0 mt-3">
+        <BRow class="mt-3">
+          <BCard no-body class="card-body">
             <BCardBody>
               <div class="table-responsive">
                 <table class="table table-hover table-bordered table-nowrap" id="customerTable">
@@ -45,16 +45,7 @@
                       <td>{{ item.hour }}</td>
 
                       <td>
-                        <button
-                        style="margin-left: 2px"
-                        type="button"
-                        :class="item.status === 'active'?'btn-customer-ok':'btn-customer-green'"
-                        v-on:click.prevent="onOpenModal(index)"
-                      >
-                        {{ item.status === 'active'? $t('停止') : $t('启动') }}
-                      </button>
-
-                        <!-- <button type="button" v-if="item.status === 'active'"
+                        <button type="button" v-if="item.status === 'active'"
                           class="btn btn-info waves-effect waves-light btn-row active" @click="onOpenModal(index)">
                           开启
                         </button>
@@ -62,7 +53,7 @@
                         <button type="button" v-else class="btn btn-danger waves-effect waves-light btn-row active"
                           @click="onOpenModal(index)">
                           停止
-                        </button> -->
+                        </button>
                       </td>
                     </tr>
                   </tbody>
@@ -70,7 +61,7 @@
               </div>
             </BCardBody>
           </BCard>
-    
+        </BRow>
 
       </div>
     </BRow>

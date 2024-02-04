@@ -76,15 +76,10 @@
                   />
                 </div>
                 <div>
-                  <VueDatePicker
+                  <VueDatapickerCustomer
                     v-model="date"
-                    range
-                    multi-calendars
-                    time-picker-inline
-                    class="datapicker vue-datepicker-customer"
                     :placeholder="$t('注册时间')"
-                    style="font-size: 14px; max-width: 198.78px"
-                  ></VueDatePicker>
+                  ></VueDatapickerCustomer>
                 </div>
                 <div class="">
                   <select
@@ -109,7 +104,7 @@
                   >
                     {{ $t("搜索") }}
                   </button>
-                  <button type="button" class="btn-customer-no-back" style="font-size: 14px;">
+                  <button type="button" class="btn-customer-no-back" style="font-size: 14px;" v-on:click.prevent="reloadPage()">
                     {{ $t("重置") }}
                   </button>
                   <button type="button" class="btn-customer-no" style="font-size: 14px;"
@@ -121,7 +116,7 @@
             </div>
 
             <div class="table-responsive" style="min-height: 80ch;">
-              <table class="table table-hover text-left" id="customerTable">
+              <table class="table table-hover text-left table-bordered table-nowrap" id="customerTable">
                 <thead class="table-light">
                   <tr>
                     <th v-for="header in headers" :key="header.text" class="table-th-style">
@@ -174,9 +169,10 @@
                     <td>{{ item.remark }}</td>
                     <td>{{ item.register_time }}</td>
 
-                    <td class="group-button">
-                      <button
-                        style="margin-left: 2px"
+                    <td>
+                      <BCol>
+                        <button
+                        style="margin-left: 2px;margin-top: 3px;"
                         type="button"
                         class="btn-customer-blue"
                         v-on:click.prevent="neiPuItemEvent(event,item)"
@@ -184,7 +180,7 @@
                         {{ $t("t-neipu") }}
                       </button>
                       <button
-                        style="margin-left: 2px"
+                      style="margin-left: 2px;margin-top: 3px;"
                         type="button"
                         class="btn-customer-blue"
                         v-on:click.prevent="updateItemEvent(event,item)"
@@ -193,7 +189,7 @@
                       </button>
 
                       <button
-                        style="margin-left: 2px"
+                      style="margin-left: 2px;margin-top: 3px;"
                         type="button"
                         class="btn-customer-ok"
                         v-on:click.prevent=""
@@ -215,6 +211,7 @@
                             > {{ $t(option.label) }}</span
                           ></BDropdownItem>
                       </BDropdown>
+                      </BCol>
                     </td>
                   </tr>
                 </tbody>
@@ -402,6 +399,7 @@ import Breadcrumb from "@/components/Breadcrumd/Breadcrumb.vue";
 import Modal from "@/components/modals/modal.vue";
 import ModalItem from "@/components/modals/modalItem.vue";
 import { ref, onMounted } from "vue";
+import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
 
 const headers = ref([
   { text: "商户ID", value: "" },
@@ -532,5 +530,7 @@ const closeNeiChongDialog = ()=>{
  const neiChongDialogConfigEvent = () =>{
   showEditDialog.value = false;
  }
-
+ const reloadPage = ()=>{
+  location.reload();
+}
 </script>

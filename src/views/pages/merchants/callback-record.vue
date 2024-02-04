@@ -23,18 +23,13 @@
                                         :placeholder="$t('订单号')" style="font-size: 14px;" />
                                 </div>
                                 <div>
-                                    <VueDatePicker
+                                    <VueDatapickerCustomer
                                         v-model="date"
-                                        range
-                                        multi-calendars
-                                        time-picker-inline
-                                        class="datapicker vue-datepicker-customer"
                                         :placeholder="$t('时间')"
-                                        style="font-size: 12px; max-width: 198.78px;"
-                                    ></VueDatePicker>
+                                    ></VueDatapickerCustomer>
                                 </div>
 
-                                <BCol lg="1">
+                                <BCol lg="2">
                                     <button
                                     type="button"
                                     class="btn-customer-no"
@@ -47,7 +42,7 @@
                                     type="button"
                                     class="btn-customer-no-back"
                                     style="margin-left: 4px; height: 39px;font-size: 14px;"
-                                    v-on:click.prevent="location.reload()"
+                                    v-on:click.prevent="reloadPage"
                                     >
                                     {{ $t('重置') }}
                                     </button>
@@ -55,7 +50,7 @@
                             </form>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-hover text-left" id="customerTable">
+                            <table class="table table-hover text-left table-bordered" id="customerTable">
                                 <thead class="table-light">
                                     <tr>
                                         <th v-for="header in headers" :key="header.text">
@@ -113,7 +108,8 @@
 import Layout from "@/layouts/main.vue";
 // import ModalHint from "@/components/modals/ModalHint.vue";
 import Breadcrumb from "@/components/Breadcrumd/Breadcrumb.vue";
-import { ref } from "vue";
+import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
+import { ref,onMounted } from "vue";
 
 
 const headers = ref([
@@ -149,10 +145,18 @@ const items = ref([
 ]);
 
 const date = ref();
+onMounted(() => {
+  const startDate = new Date();
+  const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+  date.value = [startDate, endDate];
+})
 const optionStatus = ref([
     { value: "", label: "回调状态" },
     { value: "1", label: "成功" },
     { value: "0", label: "失败" }
 ]);
+const reloadPage = ()=>{
+  location.reload();
+}
 
 </script>

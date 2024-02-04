@@ -3,19 +3,19 @@
         <BRow>
             <Breadcrumb :title="$t('t-payment-chanel')" />
 
-            <div class="col-lg-6 col-12 px-0">
-             
+            <div class="col-lg-6 col-12">
+                <BRow>
 
                     <div class="border border-info p-2 rounded" style="background-color: #b8daff">
                     <i class="mdi mdi-lightbulb-on fs-4 text-info"></i>
                     <span class="text-blue" style="font-size: 14px;">平台通道总开关，控制平台的全部转账汇款方式！</span>
-                    </div>
-            
+                </div>
+                </BRow>
                 
 
-              
-                    <BCard no-body class="card-body mt-3 ">
-                        <BCardBody class="px-0">
+                <BRow class="mt-3">
+                    <BCard no-body class="card-body">
+                        <BCardBody>
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered table-nowrap" id="customerTable">
                                     <thead class="table-light">
@@ -55,7 +55,7 @@
                             </div>
                         </BCardBody>
                     </BCard>
-              
+                </BRow>
 
             </div>
         </BRow>
@@ -126,11 +126,3 @@ const handleCloseChanel = () => {
     }
 };
 </script>
-<style scoped>
-
-@media screen and (max-width: 767.98px) {
-   th, td {
-      padding: 10px 5px !important;
-}
-}
-</style>

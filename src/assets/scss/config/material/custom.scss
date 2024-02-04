@@ -609,3 +609,8 @@ File: Custom Css File
   }
 }
 
+@media only screen and (max-width: 600px) {
+  form > div{
+    width: 100%;
+  }
+}

@@ -5,8 +5,8 @@
 
          
                 <BCard no-body class="card-body ctx-content">
-                  
-                        <div class="p-3">
+                    <BCardBody>
+                        <div class="mt-2 p-3">
                             <form class="d-flex flex-row flex-wrap align-items-center gap-2">
                                 <div class="fw-bold">搜索：</div>
 
@@ -61,7 +61,7 @@
 
                        
                         </div>
-                  
+                    </BCardBody>
                 </BCard>
            
 

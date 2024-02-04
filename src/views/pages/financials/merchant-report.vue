@@ -3,8 +3,8 @@
         <BRow>
             <Breadcrumb :title="$t('t-reconciliation-daily')" />
 
-          
-                <BCard no-body class="card-body mt-3 px-0">
+            <BRow class="mt-3">
+                <BCard no-body class="card-body">
                     <BCardBody>
                         <div class="mt-2 p-3">
                             <form class="d-flex flex-row flex-wrap align-items-center gap-2">
@@ -44,7 +44,7 @@
                         </div>
                     </BCardBody>
                 </BCard>
-          
+            </BRow>
         </BRow>
     </Layout>
 </template>

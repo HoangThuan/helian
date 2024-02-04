@@ -57,6 +57,21 @@
                 <BCard no-body class="card-body mt-3">
                     <BCardBody>
                         <div class="px-3">
+                            <p>代付检测收款账户姓名是否一致功能</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>功能开关</p>
+                                </div>
+                                <div class="col-6">
+                                    <Switch></Switch>
+                                </div>
+                            </div>
+                        </div>
+                    </BCardBody>
+                </BCard>
+                <BCard no-body class="card-body mt-3">
+                    <BCardBody>
+                        <div class="px-3">
                             <p>自动代付功能总开关，控制自动代付脚本的运行</p>
                             <div class="row">
                                 <div class="col-6">

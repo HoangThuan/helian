@@ -26,17 +26,12 @@
                   <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('订单金额')" style="font-size: 14px;"/>
                 </div>
                 <div>
-                  <VueDatePicker
-                    v-model="date"
-                    range
-                    multi-calendars
-                    time-picker-inline
-                    class="datapicker vue-datepicker-customer"
-                    :placeholder="$t('时间')"
-                    style="font-size: 14px; max-width: 198.78px"
-                  ></VueDatePicker>
+                  <VueDatapickerCustomer
+                      v-model="date"
+                      :placeholder="$t('时间')"
+                  ></VueDatapickerCustomer>
                 </div>
-                <BCol lg="1">
+                <BCol lg="2">
                     <button
                     type="button"
                     class="btn-customer-no"
@@ -49,15 +44,15 @@
                     type="button"
                     class="btn-customer-no-back"
                     style="margin-left: 4px; height: 39px;font-size: 14px;"
-                    v-on:click.prevent="location.reload()"
+                    v-on:click.prevent="reloadPage"
                     >
                     {{ $t('重置') }}
                     </button>
                 </BCol>
               </form>
             </div>
-            <div class="table-responsive">
-              <table class="table table-hover text-left" id="customerTable">
+            <div class="table-responsive" style="min-height: 90ch;">
+              <table class="table table-hover text-left table-bordered table-nowrap" id="customerTable">
                 <thead class="table-light">
                   <tr>
                     <th v-for="header in headers" :key="header.text">
@@ -147,7 +142,7 @@
 import Layout from "@/layouts/main.vue";
 // import ModalHint from "@/components/modals/ModalHint.vue";
 import Breadcrumb from "@/components/Breadcrumd/Breadcrumb.vue";
-//import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
+import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
 import { ref, onMounted } from "vue";
 
 
@@ -196,4 +191,9 @@ onMounted(() => {
   const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
   date.value = [startDate, endDate];
 })
+const reloadPage = ()=>{
+  location.reload();
+}
+
+
 </script>

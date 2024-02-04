@@ -4,7 +4,7 @@
             <Breadcrumb :title="$t('t-reconciliation-daily')" />
 
 
-            <BCard no-body class="card-body ctx-content px-0">
+            <BCard no-body class="card-body ctx-content">
                 <BCardBody>
                     <div class="mt-2 p-3">
                         <form class="d-flex flex-row flex-wrap align-items-center gap-2">

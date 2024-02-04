@@ -4,118 +4,106 @@
     <BRow>
       <Breadcrumb :title="$t('t-beneficiary-bank')" />
 
+     
+        <BCard no-body class="card-body">
+          <BCardBody>
+            <div class="p-3 pt-2">
+              <form class="d-flex flex-row flex-wrap align-items-center gap-2 search-bar-font-size">
+                <div class="fw-bold">搜索：</div>
 
-      <BCard no-body class="card-body px-0">
-        <BCardBody>
-          <div class="p-3 pt-2">
-            <form class="d-flex flex-row flex-wrap align-items-center gap-2 search-bar-font-size">
-              <div class="fw-bold">搜索：</div>
+                <div class="col-12 col-lg-auto">
+                  <select class="form-select" aria-label="Default select example">
+                    <option v-for="option in optionstate" :key="option.value" :value="option.value">{{ $t(option.label) }}
+                    </option>
+                  </select>
+                </div>
 
-              <div class="col-12 col-lg-auto">
-                <select class="form-select" aria-label="Default select example">
-                  <option v-for="option in optionstate" :key="option.value" :value="option.value">{{ $t(option.label) }}
-                  </option>
-                </select>
-              </div>
+                <div class="col-12 col-lg-auto">
+                  <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-bank-name')" />
+                </div>
 
-              <div class="col-12 col-lg-auto">
-                <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-bank-name')" />
-              </div>
+                <div class="col-12 col-lg-auto">
+                  <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-bank-code')" />
+                </div>
 
-              <div class="col-12 col-lg-auto">
-                <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-bank-code')" />
-              </div>
+                <div class="col-12 col-lg-auto">
+                  <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-remark')" />
+                </div>
 
-              <div class="col-12 col-lg-auto">
-                <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('t-remark')" />
-              </div>
-
-              <div class="col-12 col-lg-auto d-flex justify-content-center gap-2 d-md-block gap-md-0">
-                <button type="button" class="btn btn-secondary waves-effect waves-light mx-2 p-2">
-                  {{ $t('t-search') }}
-                </button>
-                <button type="button" class="btn btn-light waves-effect p-2">
-                  {{ $t('t-reset') }}
-                </button>
-              </div>
+                <div>
+                  <button type="button" class="btn btn-secondary waves-effect waves-light mx-2 p-2">
+                    {{ $t('t-search') }}
+                  </button>
+                  <button type="button" class="btn btn-light waves-effect p-2">
+                    {{ $t('t-reset') }}
+                  </button>
+                </div>
 
 
-            </form>
-          </div>
+              </form>
+            </div>
 
-          <div class="table-responsive ctx-table">
-            <table class="table table-hover table-bordered table-nowrap" id="customerTable">
-              <thead class="table-light">
-                <tr>
-                  <th v-for="header in headers" :key="header.text">
-                    {{ $t(header.text) }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="list form-check-all table-body-font-size">
-                <tr v-for="(item, index) in items" :key="index">
-                  <td>
-                    <img :src="item.img" alt="" style="
+            <div class="table-responsive ctx-table">
+              <table class="table table-hover table-bordered table-nowrap" id="customerTable">
+                <thead class="table-light">
+                  <tr>
+                    <th v-for="header in headers" :key="header.text">
+                      {{ $t(header.text) }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="list form-check-all table-body-font-size">
+                  <tr v-for="(item, index) in items" :key="index">
+                    <td>
+                      <img :src="item.img" alt="" style="
                               position: relative;
                               height: 35px;
                               display: inline-block;
                           " />
-                  </td>
-                  <td class="d-none d-md-block">{{ item.bankName }}</td>
-                  <td class="d-md-none">
-                    <div class="d-flex gap-3">
-                      <button type="button" class="btn-customer-blue" @click="onOpenModalEdit(index)">
+                    </td>
+
+                    <td>{{ item.bankName }}</td>
+                    <td>{{ item.bankAbbreviation }}</td>
+                    <td>{{ item.code1 }}</td>
+                    <td>{{ item.code2 }}</td>
+
+                     <td>
+                      <span class=" status text-danger" v-if="item.status === 'active'">
+                        <i class="ri-error-warning-fill fs-5"></i>
+                        已关闭
+                      </span>
+
+                      <span class="status text-success" v-else>
+                        <i class="ri-checkbox-circle-fill fs-5 text-success"></i>
+
+                        已开启
+                      </span>
+                    </td> 
+
+                    <td>{{ item.numberCard }}</td>
+
+                    <td >
+                      <div class="d-flex gap-3">
+                        <button type="button" class="btn-customer-blue"
+                        @click="onOpenModalEdit(index)">
                         编辑
                       </button>
 
-                      <button type="button" :class="item.status == 'active' ? 'btn-customer-blue' : 'btn-customer-ok'"
+                      <button type="button" 
+                      :class="item.status == 'active'? 'btn-customer-blue':'btn-customer-ok'"
                         @click="onOpenModal(index)">
-                        {{ item.status == 'active' ? "开启" : "关闭" }}
+                        {{ item.status == 'active'? "开启":"关闭" }}
                       </button>
-                    </div>
-
-                  </td>
-                
-                  <td>{{ item.bankAbbreviation }}</td>
-                  <td>{{ item.code1 }}</td>
-                  <td>{{ item.code2 }}</td>
-
-                  <td>
-                    <span class=" status text-danger" v-if="item.status === 'active'">
-                      <i class="ri-error-warning-fill fs-5"></i>
-                      已关闭
-                    </span>
-
-                    <span class="status text-success" v-else>
-                      <i class="ri-checkbox-circle-fill fs-5 text-success"></i>
-
-                      已开启
-                    </span>
-                  </td>
-
-                  <td>{{ item.numberCard }}</td>
-
-                  <td class="d-none d-md-block">
-                    <div class="d-flex gap-3">
-                      <button type="button" class="btn-customer-blue" @click="onOpenModalEdit(index)">
-                        编辑
-                      </button>
-
-                      <button type="button" :class="item.status == 'active' ? 'btn-customer-blue' : 'btn-customer-ok'"
-                        @click="onOpenModal(index)">
-                        {{ item.status == 'active' ? "开启" : "关闭" }}
-                      </button>
-                    </div>
-
-                  </td>
-                  <td class="d-md-none">{{ item.bankName }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </BCardBody>
-      </BCard>
-
+                      </div>
+                     
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </BCardBody>
+        </BCard>
+    
 
     </BRow>
     <ModalHint v-model="isConfirmCloseChanel" :on-confirm="handleCloseChanel" :on-close="onClose" />
@@ -257,8 +245,8 @@ const isConfirmUpdate = ref(false);
 const itemSelected = ref();
 
 const onOpenModal = (index) => {
-  isConfirmCloseChanel.value = true;
-  itemSelected.value = index;
+    isConfirmCloseChanel.value = true;
+    itemSelected.value = index;
 };
 
 const onOpenModalEdit = (index) => {
@@ -267,32 +255,22 @@ const onOpenModalEdit = (index) => {
 };
 
 const onClose = () => {
-  isConfirmCloseChanel.value = false;
-  isConfirmCloseChanel.value = false;
+    isConfirmCloseChanel.value = false;
+    isConfirmCloseChanel.value = false;
 };
 
 const handleCloseChanel = () => {
 
-  if (items.value[itemSelected.value].status === "active") {
-    items.value[itemSelected.value].status = "inActive";
-  } else {
-    items.value[itemSelected.value].status = "active";
-  }
+    if (items.value[itemSelected.value].status === "active") {
+        items.value[itemSelected.value].status = "inActive";
+    } else {
+        items.value[itemSelected.value].status = "active";
+    }
 };
 
 const handleUpdate = () => {
-
+  
 }
 
 
 </script>
-
-<style scoped>
-@media screen and (max-width: 767.98px) {
-
-  th,
-  td {
-    padding: 10px 5px !important;
-  }
-}
-</style>

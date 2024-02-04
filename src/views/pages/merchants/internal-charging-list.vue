@@ -23,17 +23,12 @@
                                         :placeholder="$t('商户名称')" style="font-size: 14px;" />
                                 </div>
                                 <div>
-                                    <VueDatePicker
+                                    <VueDatapickerCustomer
                                         v-model="date"
-                                        range
-                                        multi-calendars
-                                        time-picker-inline
-                                        class="datapicker vue-datepicker-customer"
                                         :placeholder="$t('时间')"
-                                        style="font-size: 12px; max-width: 198.78px"
-                                    ></VueDatePicker>
+                                    ></VueDatapickerCustomer>
                                 </div>
-                                <BCol lg="1">
+                                <BCol lg="2">
                                     <button
                                     type="button"
                                     class="btn-customer-no"
@@ -46,7 +41,7 @@
                                     type="button"
                                     class="btn-customer-no-back"
                                     style="margin-left: 4px; height: 39px ; font-size: 14px;"
-                                    v-on:click.prevent="location.reload()"
+                                    v-on:click.prevent="reloadPage"
                                     >
                                     {{ $t('重置') }}
                                     </button>
@@ -54,7 +49,7 @@
                             </form>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-hover text-left" id="customerTable" style="border-collapse: collapse;">
+                            <table class="table table-hover text-left table-bordered table-nowrap" id="customerTable" style="border-collapse: collapse;">
                                 <thead class="table-light">
                                     <tr>
                                         <th v-for="header in headers" :key="header.text">
@@ -65,12 +60,12 @@
                                 <tbody class="list form-check-all">
                                     <tr v-for="(item, index) in items" :key="index">
                                         <td>{{ item.operator }}</td>
+                                        <td>{{ item.business_name }}</td>
                                         <td>{{ item.merchant_id }}</td>
                                         <td>{{ item.recharge_amount }}</td>
                                         <td>{{ item.handling_fee }}</td>
                                         <td>{{ item.time }}</td>
                                         <td>{{ item.remark }}</td>
-                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,6 +88,7 @@ import Layout from "@/layouts/main.vue";
 // import ModalHint from "@/components/modals/ModalHint.vue";
 import Breadcrumb from "@/components/Breadcrumd/Breadcrumb.vue";
 import { ref, onMounted } from "vue";
+import VueDatapickerCustomer from "@/components/datapicker/VueDatapicker.vue";
 
 
 const headers = ref([
@@ -147,4 +143,7 @@ onMounted(() => {
     const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
     date.value = [startDate, endDate];
 })
+const reloadPage = ()=>{
+  location.reload();
+}
 </script>

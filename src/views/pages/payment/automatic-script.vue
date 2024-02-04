@@ -42,7 +42,7 @@
             </div>
 
             <div class="table-responsive">
-              <table class="table table-hover text-left" id="customerTable">
+              <table class="table table-hover text-left table-bordered" id="customerTable">
                 <thead class="table-light">
                   <tr>
                     <th v-for="header in headers" :key="header.text">

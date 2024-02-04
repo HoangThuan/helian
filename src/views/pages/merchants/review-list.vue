@@ -16,7 +16,7 @@
                 <div>
                   <input type="text" class="form-control" id="placeholderInput" :placeholder="$t('名称')" style="font-size: 14px;"/>
                 </div>
-                <BCol lg="1">
+                <BCol lg="2">
                   <button
                   type="button"
                   class="btn-customer-no"
@@ -29,7 +29,7 @@
                   type="button"
                   class="btn-customer-no-back"
                   style="margin-left: 4px; height: 39px ; font-size: 14px;"
-                  v-on:click.prevent="location.reload()"
+                  v-on:click.prevent="reloadPage"
                 >
                 {{ $t('重置') }}
                 </button>
@@ -37,7 +37,7 @@
               </form>
             </div>
             <div class="table-responsive">
-              <table class="table table-hover text-left" id="customerTable">
+              <table class="table table-hover text-left table-bordered table-nowrap" id="customerTable">
                 <thead class="table-light">
                   <tr>
                     <th v-for="header in headers" :key="header.text">
@@ -170,4 +170,7 @@ onMounted(() => {
   const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
   date.value = [startDate, endDate];
 })
+const reloadPage = ()=>{
+  location.reload();
+}
 </script>
